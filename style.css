@@ -1,0 +1,18 @@
+.taskTable {
+    padding: 0;
+}
+
+.taskTable li {
+    display: flex;
+    padding: 5px;
+    border: 1px solid #000;
+    margin-bottom: 10px;
+}
+
+.taskTable li span {
+    margin-right: auto;
+}
+
+.taskTable li button {
+    margin: 0 5px;
+}
