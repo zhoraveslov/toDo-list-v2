@@ -8,7 +8,13 @@ function uuidv4() {
 	);
 }
 
-function deleteTask(li) {}
+function deleteTask(li) {
+	const li = e.currentTarget.closest("li");
+	const taskId = li.getAttribute("data-id");
+	const index = toDoList.findIndex((task) => task.id === taskId);
+	toDoList.splice(index, 1);
+	li.remove();
+	localStorage.setItem("toDoList", JSON.stringify(toDoList));}
 
 function editTask() {}
 
@@ -39,7 +45,8 @@ function createDeleteBtn(id) {
 	const deleteBtn = document.createElement("button");
 	deleteBtn.classList.add("deleteBtn");
 	deleteBtn.textContent = "Delete";
-	deleteBtn.addEventListener("click", deleteTask);
+	deleteBtn.addEventListener("click", function (e) {
+		deleteTask(e); // call deleteTask with the event object as an argument
 
 	return deleteBtn;
 }
@@ -49,7 +56,8 @@ function renderLi(text, id) {
 	const span = createSpan(text);
 	const editBtn = createEditBtn(id);
 	const deleteBtn = createDeleteBtn(id);
-
+li.setAttribute("data-id", id); // set the data-id attribute to the ID of the task
+		
 	li.append(span, editBtn, deleteBtn);
 
 	return li;
