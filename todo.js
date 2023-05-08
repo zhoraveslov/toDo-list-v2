@@ -8,25 +8,6 @@ function uuidv4() {
   );
 }
 
-function getLocalStorage() {
-  return localStorage.getItem("toDoList")
-    ? JSON.parse(localStorage.getItem("toDoList"))
-    : [];
-}
-
-function setLocalStorage(list) {
-  localStorage.setItem("toDoList", JSON.stringify(list));
-}
-
-function deleteTask(id, li) {
-  const toDoList = getLocalStorage();
-  const filteredToDoList = toDoList.filter((element) => element.id !== id);
-
-  // Удаляем li и обновляем localStorage
-  li.remove();
-  setLocalStorage(filteredToDoList);
-}
-
 function editTask(id, span) {
   const toDoList = getLocalStorage();
 
@@ -86,48 +67,10 @@ function createDeleteBtn(id, li) {
   return deleteBtn;
 }
 
-function renderLi(id, text) {
-  const li = createLi();
-  const span = createSpan(text);
-  // Передаем только что созданные: span для редактирования текста, li для дальнейшего удаления, id нужен для обновления массива данных в localStorage
-  const editBtn = createEditBtn(id, span);
-  const deleteBtn = createDeleteBtn(id, li);
+
 
   li.append(span, editBtn, deleteBtn);
 
   return li;
 }
 
-function renderList() {
-  const taskTable = document.querySelector(".taskTable");
-  const toDoList = getLocalStorage();
-
-  toDoList.forEach((element) => {
-    taskTable.append(renderLi(element.id, element.text));
-  });
-}
-
-function formSubmit(e) {
-  e.preventDefault();
-
-  const inputTask = document.querySelector(".inputTask");
-  const taskTable = document.querySelector(".taskTable");
-  const inputVal = inputTask.value;
-  const id = uuidv4();
-  const toDoList = getLocalStorage();
-
-  toDoList.push({
-    id: id,
-    text: inputVal,
-  });
-  taskTable.append(renderLi(id, inputVal));
-  inputTask.value = "";
-  setLocalStorage(toDoList);
-}
-
-window.addEventListener("load", () => {
-  const form = document.querySelector(".form");
-
-  renderList();
-  form.addEventListener("submit", formSubmit);
-});
